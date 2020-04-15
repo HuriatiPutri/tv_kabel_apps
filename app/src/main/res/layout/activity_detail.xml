@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.huriati.project.tvkabel.ui.DetailActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/idPel"
+            android:textSize="17sp"
+            android:textColor="@color/colorBlack"
+            android:fontFamily="@font/poppins_bold"
+            android:text="2838292929"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/namaPel"
+            android:textSize="22sp"
+            android:layout_marginBottom="15dp"
+            android:textColor="@color/colorBlack"
+            android:fontFamily="@font/roboto_light"
+            android:text="Putri Huriati"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+            <ImageButton
+                android:id="@+id/ic_telp"
+                android:layout_alignParentEnd="true"
+                android:onClick="telpon"
+                android:padding="5dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/round"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_local_phone"
+                android:layout_alignParentRight="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/noTelp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/colorBlack"
+            android:fontFamily="@font/roboto_light"
+            android:text="083180091841"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <ImageButton
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/round"
+                    android:src="@drawable/ic_location"
+                    android:layout_alignParentRight="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/alamat"
+            android:textColor="@color/colorBlack"
+            android:fontFamily="@font/roboto_light"
+            android:text="jln. moh hatta"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="List Tagihan"
+            android:padding="16dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/poppins_bold"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list"
+            tools:listitem="@layout/item_tagihan"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
