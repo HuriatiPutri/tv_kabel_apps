@@ -6,6 +6,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -38,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
     Context mContext;
     BaseApiService mApiService;
 
+    private AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,12 +82,20 @@ public class LoginActivity extends AppCompatActivity {
                             String wilayah_id = jsonRESULTS.getJSONObject("data").getString("wilayah_id");
                             String auth = jsonRESULTS.getJSONObject("data").getString("token");
 
+                            String notelp = jsonRESULTS.getJSONObject("data").getString("no_telp");
+                            String alamat = jsonRESULTS.getJSONObject("data").getString("alamat");
+                            String wilayah = jsonRESULTS.getJSONObject("data").getString("wilayah");
+
                             sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_SUDAH_LOGIN, true);
                             sharedPrefManager.saveSPString(SharedPrefManager.SP_ID, id);
                             sharedPrefManager.saveSPString(SharedPrefManager.SP_EMAIL, email);
                             sharedPrefManager.saveSPString(SharedPrefManager.SP_NAME, name);
                             sharedPrefManager.saveSPString(SharedPrefManager.SP_WILAYAH, wilayah_id);
                             sharedPrefManager.saveSPString(SharedPrefManager.SP_AUTH, auth);
+
+                            sharedPrefManager.saveSPString(SharedPrefManager.SP_NOTELP, notelp);
+                            sharedPrefManager.saveSPString(SharedPrefManager.SP_ALAMAT, alamat);
+                            sharedPrefManager.saveSPString(SharedPrefManager.SP_WILAYAHNAME, wilayah);
 
                             Toast.makeText(mContext, "Success", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(mContext, MainActivity.class);

@@ -14,7 +14,6 @@ import com.huriati.project.tvkabel.api.BaseApiService;
 import com.huriati.project.tvkabel.api.UtilsApi;
 import com.huriati.project.tvkabel.model.Pelanggan;
 import com.huriati.project.tvkabel.ui.DetailActivity;
-import com.huriati.project.tvkabel.ui.TestActivity;
 
 import java.util.List;
 
@@ -23,8 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class PelangganAdapter extends RecyclerView.Adapter<PelangganAdapter.UsersHolder> {
 
-    BaseApiService mApiService;
-    SharedPrefManager sharedPrefManager;
     private Context context;
     private List<Pelanggan> list;
 
@@ -42,8 +39,6 @@ public class PelangganAdapter extends RecyclerView.Adapter<PelangganAdapter.User
 
     @Override
     public void onBindViewHolder(@NonNull UsersHolder holder, final int position) {
-        sharedPrefManager = new SharedPrefManager(context);
-        mApiService = UtilsApi.getAPIService(sharedPrefManager.getAuth());
 
         holder.txtidPel.setText(list.get(position).getId());
         holder.txtnamaPel.setText(list.get(position).getNama());
@@ -51,11 +46,12 @@ public class PelangganAdapter extends RecyclerView.Adapter<PelangganAdapter.User
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(context, TestActivity.class);
+                Intent intent= new Intent(context, DetailActivity.class);
                 intent.putExtra("idPel", list.get(position).getId());
                 intent.putExtra("namaPel", list.get(position).getNama());
                 intent.putExtra("hp", list.get(position).getNo_telp());
                 intent.putExtra("alamat", list.get(position).getAlamat());
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
         });

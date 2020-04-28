@@ -49,7 +49,10 @@ public interface BaseApiService {
     Call<ResponseBody> salaryRequest(@Header("token") String token);
 
     @GET("api-pelanggan/index")
-    Call<PelangganResponse> pelangganRequest(@Query("wilayah") String wilayah);
+    Call<PelangganResponse> pelangganRequest(@Query("wilayah") String wilayah, @Query("page") int page);
+
+    @GET("api-pelanggan/index")
+    Call<PelangganResponse> pelangganRequest(@Query("id") String id, @Query("wilayah") String wilayah, @Query("page") int page);
 
     @GET("employee/print")
     Call<ResponseBody> printRequest();

@@ -18,6 +18,9 @@
             android:textColor="@color/colorBlack"
             android:fontFamily="@font/poppins_bold"
             android:text="2838292929"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -27,6 +30,18 @@
             android:textColor="@color/colorBlack"
             android:fontFamily="@font/roboto_light"
             android:text="Putri Huriati"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/status"
+                android:textSize="22sp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="15dp"
+                android:textColor="@color/colorAccent"
+                android:fontFamily="@font/poppins_bold"
+                android:text="Belum Bayar"
+                android:layout_alignParentRight="true" />
+        </RelativeLayout>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -104,24 +119,39 @@
                 android:textStyle="bold" />
         </RelativeLayout>
     </LinearLayout>
-    <Button
+    <LinearLayout
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Cetak"
-        android:textStyle="bold"
-        android:enabled="false"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp"
-        android:id="@+id/cetak"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Bayar"
-        android:layout_margin="20dp"
-        android:layout_above="@+id/cetak"
-        android:textStyle="bold"
-        android:id="@+id/bayar"
-        android:onClick="bayar"/>
+        android:layout_height="50dp"
+        android:layout_weight="0.5"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:elevation="30dp">
+        <TextView
+            android:id="@+id/bayar"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorWhite"
+            android:text="BAYAR"
+            android:textSize="14dp"
+            android:onClick="bayar"
+            android:textColor="@color/colorBlack"
+            android:textStyle="bold"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/cetak"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="cetak"
+            android:background="@color/colorPrimary"
+            android:text="Cetak"
+            android:textSize="14dp"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold"
+            android:gravity="center"/>
+    </LinearLayout>
+
     </RelativeLayout>

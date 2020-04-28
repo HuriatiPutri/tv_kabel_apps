@@ -19,7 +19,7 @@ import com.huriati.project.tvkabel.model.History;
 import com.huriati.project.tvkabel.model.HistoryResponse;
 import com.huriati.project.tvkabel.model.Tagihan;
 import com.huriati.project.tvkabel.model.TagihanResponse;
-import com.huriati.project.tvkabel.ui.TestActivity;
+import com.huriati.project.tvkabel.ui.DetailActivity;
 
 import java.util.List;
 
@@ -52,6 +52,7 @@ public class PlaceholderFragment extends Fragment {
 
     RecyclerView list;
     TextView label;
+
     public static PlaceholderFragment newInstance(int index) {
         PlaceholderFragment fragment = new PlaceholderFragment();
         Bundle bundle = new Bundle();
@@ -68,6 +69,8 @@ public class PlaceholderFragment extends Fragment {
         if (getArguments() != null) {
             index = getArguments().getInt(ARG_SECTION_NUMBER);
         }
+
+
         pageViewModel.setIndex(index);
     }
 
@@ -90,9 +93,9 @@ public class PlaceholderFragment extends Fragment {
                 mApiService = UtilsApi.getAPIService(sharedPrefManager.getAuth());
                 label.setText(s);
                if(s.equalsIgnoreCase("1")){
-                   getTagihan(TestActivity.idPel);
+                   getTagihan(DetailActivity.idPel);
                }else{
-                   getHistory(sharedPrefManager.getSpIdkolektor(), TestActivity.idPel);
+                   getHistory(sharedPrefManager.getSpIdkolektor(), DetailActivity.idPel);
                }
             }
         });
@@ -152,9 +155,9 @@ public class PlaceholderFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if(label.getText().toString().equalsIgnoreCase("1")){
-            getTagihan(TestActivity.idPel);
+            getTagihan(DetailActivity.idPel);
         }else{
-            getHistory(sharedPrefManager.getSpIdkolektor(), TestActivity.idPel);
+            getHistory(sharedPrefManager.getSpIdkolektor(), DetailActivity.idPel);
         }
     }
 }

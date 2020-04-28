@@ -2,12 +2,11 @@ package com.huriati.project.tvkabel.model;
 
 public class History {
     private String id,
-            tagihan_kolektor_id,
-            tagihan_pelanggan_id,
             pelanggan_id,
-            tgl_tagihan,
-            bulan_tagihan,
-            jumlah_pembayaran;
+            bulan_id,
+            jumlah_tagihan,
+            status_pembayaran,
+            updated_at;
 
     public String getId() {
         return id;
@@ -15,22 +14,6 @@ public class History {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getTagihan_kolektor_id() {
-        return tagihan_kolektor_id;
-    }
-
-    public void setTagihan_kolektor_id(String tagihan_kolektor_id) {
-        this.tagihan_kolektor_id = tagihan_kolektor_id;
-    }
-
-    public String getTagihan_pelanggan_id() {
-        return tagihan_pelanggan_id;
-    }
-
-    public void setTagihan_pelanggan_id(String tagihan_pelanggan_id) {
-        this.tagihan_pelanggan_id = tagihan_pelanggan_id;
     }
 
     public String getPelanggan_id() {
@@ -41,27 +24,35 @@ public class History {
         this.pelanggan_id = pelanggan_id;
     }
 
-    public String getTgl_tagihan() {
-        return tgl_tagihan;
+    public String getBulan_id() {
+        return bulan_id;
     }
 
-    public void setTgl_tagihan(String tgl_tagihan) {
-        this.tgl_tagihan = tgl_tagihan;
+    public void setBulan_id(String bulan_id) {
+        this.bulan_id = bulan_id;
     }
 
-    public String getBulan_tagihan() {
-        return bulan_tagihan;
+    public String getJumlah_tagihan() {
+        return jumlah_tagihan;
     }
 
-    public void setBulan_tagihan(String bulan_tagihan) {
-        this.bulan_tagihan = bulan_tagihan;
+    public void setJumlah_tagihan(String jumlah_tagihan) {
+        this.jumlah_tagihan = jumlah_tagihan;
     }
 
-    public String getJumlah_pembayaran() {
-        return jumlah_pembayaran;
+    public String getStatus_pembayaran() {
+        return status_pembayaran;
     }
 
-    public void setJumlah_pembayaran(String jumlah_pembayaran) {
-        this.jumlah_pembayaran = jumlah_pembayaran;
+    public void setStatus_pembayaran(String status_pembayaran) {
+        this.status_pembayaran = status_pembayaran;
+    }
+
+    public String getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(String updated_at) {
+        this.updated_at = updated_at;
     }
 }

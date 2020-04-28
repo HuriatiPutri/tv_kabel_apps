@@ -16,9 +16,13 @@ import com.huriati.project.tvkabel.model.History;
 import com.huriati.project.tvkabel.model.NamaBulan;
 import com.huriati.project.tvkabel.model.Tagihan;
 import com.huriati.project.tvkabel.ui.BayarActivity;
-import com.huriati.project.tvkabel.ui.TestActivity;
+import com.huriati.project.tvkabel.ui.DetailActivity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,18 +49,22 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.UsersHol
     @Override
     public void onBindViewHolder(@NonNull final UsersHolder holder, final int position) {
         NamaBulan namaBulan = new NamaBulan();
-        holder.tanggal.setText(list.get(position).getTgl_tagihan());
-        holder.bulan.setText(namaBulan.NamaBulan(list.get(position).getBulan_tagihan()));
-        holder.total.setText("Rp. " +list.get(position).getJumlah_pembayaran());
+        int date = Integer.parseInt(list.get(position).getUpdated_at());
+        String myDate= new SimpleDateFormat("yyyy- MM-d")
+                .format(new Date(date * 1000L));
+        holder.tanggal.setText("Tanggal Pembayaran: " + myDate);
+        String bulan = list.get(position).getBulan_id().substring(6,7);
+        holder.bulan.setText(namaBulan.NamaBulan(bulan));
+        holder.total.setText("Rp. " +list.get(position).getJumlah_tagihan());
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, BayarActivity.class);
                 intent.putExtra("idTagihan", list.get(position).getId());
                 intent.putExtra("bulan",holder.bulan.getText().toString());
-                intent.putExtra("nominal",list.get(position).getJumlah_pembayaran());
-                intent.putExtra("nama", TestActivity.txtNama.getText().toString());
-                intent.putExtra("idPel", TestActivity.txtId.getText().toString());
+                intent.putExtra("nominal",list.get(position).getJumlah_tagihan());
+                intent.putExtra("nama", DetailActivity.txtNama.getText().toString());
+                intent.putExtra("idPel", DetailActivity.txtId.getText().toString());
                 intent.putExtra("status", "1");
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);

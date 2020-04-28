@@ -4,13 +4,19 @@
     xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:padding="20dp">
+            android:padding="20dp"
+            android:layout_marginBottom="4.0dp"
+            android:layout_marginLeft="8.0dp"
+            android:layout_marginRight="8.0dp"
+            android:layout_marginTop="4.0dp"
+            card_view:cardCornerRadius="5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -22,22 +28,60 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_light"
                     android:text="Total Tagihan Terkumpul Hari Ini" />
-
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
                 <TextView
                     android:id="@+id/total_tagihan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_bold"
                     android:text="Rp. 0"
-                    android:textColor="@color/colorBlack"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textSize="25sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_bold"
+                    android:background="@drawable/rounded"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:padding="5dp"
+                    android:text="AKTIF"
+                    android:textSize="12sp"
+                    android:layout_alignParentRight="true" />
+                </RelativeLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:scrollbars="vertical"
-            tool:listitem="@layout/item_pelanggan" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_marginTop="20dp"
+        android:scrollbars="vertical"
+        tool:listitem="@layout/item_pelanggan" />
+    <RelativeLayout
+        android:gravity="center"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="bottom|end"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/prev"
+        android:textColor="@color/colorPrimary"
+        android:background="@color/colorWhite"
+        android:id="@+id/previus"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/next"
+        android:textColor="@color/colorWhite"
+        android:background="@color/colorPrimary"
+        android:layout_toRightOf="@id/previus"
+        android:id="@+id/next"/>
+    </RelativeLayout>
 </LinearLayout>

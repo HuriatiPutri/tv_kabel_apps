@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +45,7 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
 
+    public static String KEY_ACTIVITY = "msg_activity";
 
     private HomeViewModel homeViewModel;
     Context context;
@@ -52,16 +54,30 @@ public class HomeFragment extends Fragment {
     SharedPrefManager sharedPrefManager;
     TextView total_tagihan;
 
+    int totalData=0;
+    int jumlahPage = 1;
+    int page = 1;
     RecyclerView list;
+    Button btnPrev, btnNext;
+
+    public static HomeFragment newInstance(String messeage) {
+        HomeFragment fragment = new HomeFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(KEY_ACTIVITY, messeage);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
                 ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-
         context = getContext();
         sharedPrefManager = new SharedPrefManager(context);
+
+        btnPrev = root.findViewById(R.id.previus);
+        btnNext = root.findViewById(R.id.next);
 
         total_tagihan = root.findViewById(R.id.total_tagihan);
         list = root.findViewById(R.id.list);
@@ -73,24 +89,92 @@ public class HomeFragment extends Fragment {
             @Override
             public void onChanged(@Nullable String s) {
                 loading = ProgressDialog.show(context, null, "Loading...", true, false);
-                getPelanggan(sharedPrefManager.getSpWilayah());
+                getPelanggan(sharedPrefManager.getSpWilayah(), page);
                 sendKolektor();
                 totalTagihan();
+            }
+        });
+
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(page <= totalData) {
+                    page = page + 1;
+                    getPelanggan(sharedPrefManager.getSpWilayah(), page);
+                }else{
+                    btnNext.setEnabled(false);
+                }
+            }
+        });
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(page < jumlahPage) {
+                    page = page + 1;
+                    getPelanggan(sharedPrefManager.getSpWilayah(), page);
+                    btnNext.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    btnPrev.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+                    btnNext.setTextColor(getResources().getColor(R.color.colorWhite));
+                    btnPrev.setTextColor(getResources().getColor(R.color.colorPrimary));
+                }else{
+                    btnNext.setEnabled(false);
+                }
+            }
+        });
+        btnPrev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(page >= 1) {
+                    page = page - 1;
+                    getPelanggan(sharedPrefManager.getSpWilayah(), page);
+                    btnNext.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+                    btnPrev.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    btnNext.setTextColor(getResources().getColor(R.color.colorPrimary));
+                    btnPrev.setTextColor(getResources().getColor(R.color.colorWhite));
+                }else{
+                    btnNext.setEnabled(false);
+                }
             }
         });
         return root;
     }
 
-    private void getPelanggan(String wilayah) {
-
-        mApiService.pelangganRequest(wilayah).enqueue(new Callback<PelangganResponse>() {
+    private void getPelanggan(String wilayah, int page) {
+        mApiService.pelangganRequest(wilayah, page).enqueue(new Callback<PelangganResponse>() {
             @Override
             public void onResponse(Call<PelangganResponse> call, Response<PelangganResponse> response) {
+//              list.setAdapter(null);
+                if(response.isSuccessful()){
+                    loading.dismiss();
+                    final List<Pelanggan> semuaData = response.body().getData();
+                    totalData = Integer.parseInt(response.body().getTotalItems());
+                    jumlahPage = totalData % 10;
+                    list.setAdapter(new PelangganAdapter(context, semuaData));
+
+                }else{
+                    loading.dismiss();
+                    Toast.makeText(context, "No Data", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PelangganResponse> call, Throwable t) {
+                loading.dismiss();
+                Toast.makeText(context, "No Internet Connection" + t, Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+    private void getPelangganSearch(String idPel, String wilayah, int page) {
+        mApiService.pelangganRequest(idPel,wilayah,page).enqueue(new Callback<PelangganResponse>() {
+            @Override
+            public void onResponse(Call<PelangganResponse> call, Response<PelangganResponse> response) {
+//                list.setAdapter(null);
                 if(response.isSuccessful()){
                     loading.dismiss();
                     final List<Pelanggan> semuaData = response.body().getData();
                     list.setAdapter(new PelangganAdapter(context, semuaData));
-
                 }else{
                     loading.dismiss();
                     Toast.makeText(context, "No Data", Toast.LENGTH_SHORT).show();
@@ -114,17 +198,9 @@ public class HomeFragment extends Fragment {
                     Log.i("TAG", "Response Berhasil");
                     try {
                         JSONObject jsonRESULTS = new JSONObject(response.body().string());
-                        if (jsonRESULTS.getString("status").equals("1")) {
-
                             String id = jsonRESULTS.getJSONObject("data").getString("id");
-
                             sharedPrefManager.saveSPString(SharedPrefManager.SP_IDTAGIHAN, id);
 
-                        } else {
-                            // Jika login gagal
-                            String error_message = jsonRESULTS.getString("error_code");
-                            Toast.makeText(context, error_message, Toast.LENGTH_SHORT).show();
-                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -148,13 +224,10 @@ public class HomeFragment extends Fragment {
                     try {
                         JSONObject jsonRESULTS = new JSONObject(response.body().string());
                         if (jsonRESULTS.getString("status").equals("1")) {
-
                            total_tagihan.setText("Rp. "+ jsonRESULTS.getString("tagihan"));
-
                         } else {
-                            // Jika login gagal
                             String error_message = jsonRESULTS.getString("status");
-                            Toast.makeText(context, error_message, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "hei"+error_message, Toast.LENGTH_SHORT).show();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -182,7 +255,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getPelanggan(sharedPrefManager.getSpWilayah());
+//        getPelanggan(sharedPrefManager.getSpWilayah());
         totalTagihan();
     }
 }

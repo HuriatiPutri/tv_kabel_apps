@@ -45,6 +45,9 @@ public class ToolsFragment extends Fragment {
                 sharedPrefManager.saveSPString(SharedPrefManager.SP_ID, "");
                 sharedPrefManager.saveSPString(SharedPrefManager.SP_EMAIL, "");
                 sharedPrefManager.saveSPString(SharedPrefManager.SP_AUTH, "");
+                sharedPrefManager.saveSPString(SharedPrefManager.SP_ALAMAT, "");
+                sharedPrefManager.saveSPString(SharedPrefManager.SP_WILAYAHNAME, "");
+                sharedPrefManager.saveSPString(SharedPrefManager.SP_NOTELP, "");
 
 //                context.startActivity(new Intent(context, LoginActivity.class)
 //                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));

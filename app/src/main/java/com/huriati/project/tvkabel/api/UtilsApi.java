@@ -3,7 +3,7 @@ package com.huriati.project.tvkabel.api;
 public class UtilsApi {
 
       // 10.0.2.2 ini adalah localhost.
-      public static final String BASE_URL_API = "http://192.168.43.216/tvkabel/backend/web/api/";
+      public static final String BASE_URL_API = "http://internal.iramachannel.com/api/";
 
 
     // Mendeklarasikan Interface BaseApiService

@@ -21,7 +21,6 @@ import com.huriati.project.tvkabel.model.NamaBulan;
 import com.huriati.project.tvkabel.model.Tagihan;
 import com.huriati.project.tvkabel.ui.BayarActivity;
 import com.huriati.project.tvkabel.ui.DetailActivity;
-import com.huriati.project.tvkabel.ui.TestActivity;
 
 import java.util.List;
 
@@ -59,7 +58,7 @@ public class TagihanAdapter extends RecyclerView.Adapter<TagihanAdapter.UsersHol
         mApiService = UtilsApi.getAPIService(sharedPrefManager.getAuth());
         String ambilBulan = (list.get(position).getBulan_id()).substring(6,7);
 
-        holder.tanggal.setText(list.get(position).getBulan_id());
+        holder.tanggal.setText("Jatuh Tempo : "+list.get(position).getBulan_id());
         holder.bulan.setText(namaBulan.NamaBulan(ambilBulan));
         holder.total.setText("Rp. " +list.get(position).getJumlah_tagihan());
         holder.layout.setOnClickListener(new View.OnClickListener() {
@@ -69,8 +68,8 @@ public class TagihanAdapter extends RecyclerView.Adapter<TagihanAdapter.UsersHol
                 intent.putExtra("idTagihan", list.get(position).getId());
                 intent.putExtra("bulan",holder.bulan.getText().toString());
                 intent.putExtra("nominal",list.get(position).getJumlah_tagihan());
-                intent.putExtra("nama", TestActivity.txtNama.getText().toString());
-                intent.putExtra("idPel", TestActivity.txtId.getText().toString());
+                intent.putExtra("nama", DetailActivity.txtNama.getText().toString());
+                intent.putExtra("idPel", DetailActivity.txtId.getText().toString());
                 intent.putExtra("status", "0");
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);

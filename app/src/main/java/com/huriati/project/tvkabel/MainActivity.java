@@ -1,12 +1,18 @@
 package com.huriati.project.tvkabel;
 
+import android.annotation.SuppressLint;
+import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
@@ -19,6 +25,10 @@ import com.dicoding.picodiploma.mynavigationdrawer.R;
 import com.google.android.material.navigation.NavigationView;
 import com.huriati.project.tvkabel.api.BaseApiService;
 import com.huriati.project.tvkabel.api.UtilsApi;
+import com.huriati.project.tvkabel.ui.SearchActivity;
+import com.huriati.project.tvkabel.ui.home.HomeFragment;
+import com.huriati.project.tvkabel.ui.home.SearchFragment;
+import com.huriati.project.tvkabel.ui.ui.main.PlaceholderFragment;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -42,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         sharedPrefManager = new SharedPrefManager(this);
         TOKEN = sharedPrefManager.getAuth();
+
         mContext = this;
         mApiService = UtilsApi.getAPIService(sharedPrefManager.getAuth());
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -71,36 +82,31 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-//    private void getNama() {
-//        mApiService.profileRequest().enqueue(new Callback<ProfileModel>() {
-//            @Override
-//            public void onResponse(Call<ProfileModel> call, Response<ProfileModel> response) {
-//                if(response.isSuccessful()){
-//                    name.setText(response.body().getName());
-//                    if(response.body().getSex().equals("1")) {
-//                        Glide.with(MainActivity.this)
-//                                .load(R.drawable.ic_lk)
-//                                .into(profileCircleImageView);
-//                    }else{
-//                        Glide.with(MainActivity.this)
-//                                .load(R.drawable.ic_pr)
-//                                .into(profileCircleImageView);
-//                    }
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ProfileModel> call, Throwable t) {
-//
-//            }
-//        });
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        if (searchManager != null) {
+            SearchView searchView = (SearchView) (menu.findItem(R.id.action_search)).getActionView();
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+            searchView.setQueryHint(getResources().getString(R.string.search_hint));
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    Toast.makeText(MainActivity.this, query, Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getApplicationContext(), SearchActivity.class).putExtra("query",query));
+                    return true;
+                }
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    return false;
+                }
+            });
+        }
         return true;
     }
 
